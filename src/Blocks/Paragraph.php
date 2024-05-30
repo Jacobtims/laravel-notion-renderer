@@ -21,6 +21,8 @@ class Paragraph extends Block
         foreach ($this->block['paragraph']['rich_text'] as $content) {
             if ($content['text']['link'] !== null) {
                 $this->result .= "<a target='_blank' href=".$content['text']['link']['url'].'>'.$content['text']['content'].'</a>';
+            } elseif ($content['annotations']['code'] === true) {
+                $this->result .= '<code>'.$content['text']['content'].'</code>';
             } else {
                 $this->result .= $content['text']['content'];
             }
