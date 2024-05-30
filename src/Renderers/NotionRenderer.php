@@ -2,6 +2,7 @@
 
 namespace RehanKanak\LaravelNotionRenderer\Renderers;
 
+use RehanKanak\LaravelNotionRenderer\Blocks\Code;
 use RehanKanak\LaravelNotionRenderer\Blocks\Divider;
 use RehanKanak\LaravelNotionRenderer\Blocks\Heading1;
 use RehanKanak\LaravelNotionRenderer\Blocks\Heading2;
@@ -33,6 +34,7 @@ class NotionRenderer
         'image',
         'table',
         'divider',
+        'code',
     ];
 
     const BLOCKS_WITHOUT_LIST = [
@@ -43,6 +45,7 @@ class NotionRenderer
         'quote',
         'image',
         'table',
+        'code',
     ];
 
     /**
@@ -128,6 +131,12 @@ class NotionRenderer
 
             if ($block['type'] === 'divider') {
                 $this->results .= (new Divider($block, $this->previousBlock))
+                    ->process()
+                    ->render();
+            }
+
+            if ($block['type'] === 'code') {
+                $this->results .= (new Code($block, $this->previousBlock))
                     ->process()
                     ->render();
             }
