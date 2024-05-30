@@ -13,11 +13,12 @@ use RehanKanak\LaravelNotionRenderer\Blocks\Paragraph;
 use RehanKanak\LaravelNotionRenderer\Blocks\Quote;
 use RehanKanak\LaravelNotionRenderer\Blocks\Table;
 use RehanKanak\LaravelNotionRenderer\Exceptions\NotionException;
-use RehanKanak\LaravelNotionRenderer\NotionAPIService\NotionBlocks;
+use RehanKanak\LaravelNotionRenderer\Http\Integrations\Notion\NotionConnector;
+use RehanKanak\LaravelNotionRenderer\Http\Integrations\Notion\Requests\GetBlockChildrenRequest;
 
 class NotionRenderer
 {
-    public $blocks = [];
+    public $blocks = null;
 
     public $previousBlock;
 
@@ -53,13 +54,12 @@ class NotionRenderer
      */
     public function __construct($pageId)
     {
-        $response = (new NotionBlocks())->fetch($pageId);
+        $connector = new NotionConnector();
+        $request = new GetBlockChildrenRequest($pageId);
 
-        if (! $response['success']) {
-            throw new NotionException($response['details']['message'], $response['details']['status']);
-        }
+        $paginator = $connector->paginate($request);
 
-        $this->blocks = $response['data'];
+        $this->blocks = $paginator->items();
         $this->render();
     }
 

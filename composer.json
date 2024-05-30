@@ -20,9 +20,11 @@
     ],
     "require": {
         "php": "^8.1",
-        "illuminate/support": "^10.0|^11.0",
+        "guzzlehttp/guzzle": "^7.6",
         "illuminate/contracts": "^10.0|^11.0",
-        "guzzlehttp/guzzle": "^7.6"
+        "illuminate/support": "^10.0|^11.0",
+        "saloonphp/pagination-plugin": "^2.2",
+        "saloonphp/saloon": "^3.8"
     },
     "require-dev": {
         "laravel/pint": "^1.0"

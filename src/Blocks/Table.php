@@ -3,11 +3,12 @@
 namespace RehanKanak\LaravelNotionRenderer\Blocks;
 
 use RehanKanak\LaravelNotionRenderer\Exceptions\NotionException;
-use RehanKanak\LaravelNotionRenderer\NotionAPIService\NotionBlocks;
+use RehanKanak\LaravelNotionRenderer\Http\Integrations\Notion\NotionConnector;
+use RehanKanak\LaravelNotionRenderer\Http\Integrations\Notion\Requests\GetBlockChildrenRequest;
 
 class Table extends Block
 {
-    public $children;
+    public $children = null;
 
     private function start(): void
     {
@@ -24,18 +25,19 @@ class Table extends Block
      */
     public function children(): Table
     {
-        $this->children = (new NotionBlocks())->fetch($this->block['id']);
+        $connector = new NotionConnector();
+        $request = new GetBlockChildrenRequest($this->block['id']);
 
-        if (! $this->children['success']) {
-            $this->children = [];
-        }
+        $paginator = $connector->paginate($request);
+
+        $this->children = $paginator->items();
 
         return $this;
     }
 
     public function process(): Table
     {
-        if (! count($this->children)) {
+        if (! $this->children) {
             $this->result = '';
 
             return $this;
@@ -43,7 +45,7 @@ class Table extends Block
 
         Table::start();
 
-        foreach ($this->children['data'] as $rowIndex => $row) {
+        foreach ($this->children as $rowIndex => $row) {
             if ($row['type'] === 'table_row') {
                 $this->result .= '<tr>';
                 foreach ($row['table_row']['cells'] as $cellIndex => $cell) {
