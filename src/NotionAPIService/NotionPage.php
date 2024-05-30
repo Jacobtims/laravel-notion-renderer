@@ -1,10 +1,10 @@
 <?php
 
-namespace RehanKanak\NotionAPIService;
+namespace RehanKanak\LaravelNotionRenderer\NotionAPIService;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use RehanKanak\Exceptions\NotionException;
+use RehanKanak\LaravelNotionRenderer\Exceptions\NotionException;
 
 class NotionPage
 {
