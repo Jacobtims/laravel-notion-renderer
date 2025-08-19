@@ -82,6 +82,7 @@ For more details on obtaining and creating Integrations, please refer this page:
 ## Credits
 
 - [zusamarehan](https://github.com/zusamarehan)
+- [Jacobtims](https://github.com/Jacobtims)
 - [All Contributors](../../contributors)
 
 ## License
